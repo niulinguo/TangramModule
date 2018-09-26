@@ -55,7 +55,6 @@ public class SimpleImgView extends RatioImageView {
     @CellRender
     public void cellInited(BaseCell cell) {
         setOnClickListener(cell);
-
     }
 
     @CellRender

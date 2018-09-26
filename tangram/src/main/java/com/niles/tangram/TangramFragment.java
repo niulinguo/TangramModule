@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.niles.tangram.common.CellModel;
-import com.niles.tangram.common.FragmentDataModel;
 import com.niles.tangram.common.CommonUtils;
+import com.niles.tangram.common.FragmentDataModel;
 import com.tmall.wireless.tangram.TangramBuilder;
 import com.tmall.wireless.tangram.TangramEngine;
 import com.tmall.wireless.tangram.structure.BaseCell;
@@ -71,13 +71,13 @@ public class TangramFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recycler_view_layout, container, false);
+        return new RecyclerView(CommonUtils.requireNonNull(getContext()));
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = view.findViewById(R.id.rv_list);
+        RecyclerView recyclerView = (RecyclerView) view;
         mTangramEngine.bindView(recyclerView);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
