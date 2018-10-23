@@ -1,5 +1,6 @@
 package com.niles.tangram.common;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -14,20 +15,31 @@ public class FragmentDataModel {
 
     private final String mJsonPageData;
 
-    FragmentDataModel(String jsonPageData) {
+    private FragmentDataModel(String jsonPageData) {
         mJsonPageData = jsonPageData;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 
     public String getJsonPageData() {
         return mJsonPageData;
     }
 
+    public Bundle wrapBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putString("mJsonPageData", mJsonPageData);
+        return bundle;
+    }
+
     public static final class Builder {
         private String mJsonPageData;
+
+        public Builder() {
+        }
+
+        public Builder(Bundle bundle) {
+            if (bundle != null) {
+                mJsonPageData = bundle.getString("mJsonPageData");
+            }
+        }
 
         public Builder setJsonPageData(String jsonPageData) {
             mJsonPageData = jsonPageData;

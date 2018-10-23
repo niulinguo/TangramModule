@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.niles.tangram.TangramFragment;
-import com.niles.tangram.common.FragmentDataModel;
 import com.niles.tangram.common.CommonUtils;
+import com.niles.tangram.common.FragmentDataModel;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TangramFragment fragment = TangramFragment.create(FragmentDataModel
-                .newBuilder()
+        TangramFragment fragment = TangramFragment.create(new FragmentDataModel.Builder()
                 .setJsonPageData(new String(CommonUtils.requireNonNull(getAssertsFile(this, "data.json"))))
                 .build());
 

@@ -1,15 +1,17 @@
 package com.niles.tangram;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.niles.tangram.common.CellModel;
+import com.niles.tangram.common.CellInfo;
 import com.niles.tangram.common.CommonUtils;
 import com.niles.tangram.common.FragmentDataModel;
 import com.tmall.wireless.tangram.TangramBuilder;
@@ -29,35 +31,30 @@ import java.util.List;
  */
 public class TangramFragment extends Fragment {
 
-    private static final String ARG_JSON_PAGE_DATA = "ARG_JSON_PAGE_DATA";
     private TangramEngine mTangramEngine;
-    private String mJsonPageData;
+    private FragmentDataModel mDataModel;
 
     public static TangramFragment create(FragmentDataModel fragmentDataModel) {
         TangramFragment fragment = new TangramFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString(ARG_JSON_PAGE_DATA, fragmentDataModel.getJsonPageData());
-        fragment.setArguments(arguments);
+        fragment.setArguments(fragmentDataModel.wrapBundle());
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle arguments = getArguments();
-        assert arguments != null;
-        mJsonPageData = arguments.getString(ARG_JSON_PAGE_DATA);
+        mDataModel = new FragmentDataModel.Builder(getArguments()).build();
 
         TangramBuilder.InnerBuilder builder = TangramBuilder.newInnerBuilder(CommonUtils.requireNonNull(getContext()));
 
-        List<CellModel> cellModelList = TangramManager.getConfig().getCellModelList();
-        for (CellModel cellModel : cellModelList) {
-            String type = cellModel.getType();
-            Class<? extends BaseCell> cellClass = cellModel.getCellClass();
-            Class<? extends ViewHolderCreator.ViewHolder> holderClass = cellModel.getHolderClass();
-            Class<? extends View> viewClass = cellModel.getViewClass();
+        List<CellInfo> cellInfoList = TangramManager.getConfig().getCellInfoList();
+        for (CellInfo cellInfo : cellInfoList) {
+            String type = cellInfo.getType();
+            Class<? extends BaseCell> cellClass = cellInfo.getCellClass();
+            Class<? extends ViewHolderCreator.ViewHolder> holderClass = cellInfo.getHolderClass();
+            Class<? extends View> viewClass = cellInfo.getViewClass();
             if (holderClass != null) {
-                builder.registerCell(type, cellClass, new ViewHolderCreator<>(cellModel.getLayoutResId(), holderClass, viewClass));
+                builder.registerCell(type, cellClass, new ViewHolderCreator<>(cellInfo.getLayoutResId(), holderClass, viewClass));
             } else if (cellClass != null) {
                 builder.registerCell(type, cellClass, viewClass);
             } else {
@@ -71,13 +68,20 @@ public class TangramFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return new RecyclerView(CommonUtils.requireNonNull(getContext()));
+        View rootView = createView(inflater, container, savedInstanceState);
+        initRecyclerView((RecyclerView) rootView.findViewById(R.id.rv_list));
+        return rootView;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        RecyclerView recyclerView = (RecyclerView) view;
+    private View createView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Context context = inflater.getContext();
+        RecyclerView recyclerView = new RecyclerView(context);
+        recyclerView.setId(R.id.rv_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        return recyclerView;
+    }
+
+    private void initRecyclerView(RecyclerView recyclerView) {
         mTangramEngine.bindView(recyclerView);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -87,9 +91,13 @@ public class TangramFragment extends Fragment {
                 mTangramEngine.onScrolled();
             }
         });
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         try {
-            mTangramEngine.setData(new JSONArray(mJsonPageData));
+            mTangramEngine.setData(new JSONArray(mDataModel.getJsonPageData()));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

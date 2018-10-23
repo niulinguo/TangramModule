@@ -1,6 +1,6 @@
 package com.niles.tangram.cell;
 
-import com.niles.tangram.common.CellModel;
+import com.niles.tangram.common.CellInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +12,12 @@ import java.util.List;
  */
 public class CreateCells {
 
-    public static List<CellModel> create() {
-        List<CellModel> cellModelList = new ArrayList<>();
-        cellModelList.add(CellModel
-                .newBuilder()
+    public static List<CellInfo> create() {
+        List<CellInfo> cellInfoList = new ArrayList<>();
+        cellInfoList.add(new CellInfo.Builder()
                 .setType(CellType.SIMPLE_IMG)
                 .setViewClass(SimpleImgView.class)
                 .build());
-        return cellModelList;
+        return cellInfoList;
     }
 }

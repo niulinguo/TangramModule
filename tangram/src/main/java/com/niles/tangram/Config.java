@@ -1,7 +1,7 @@
 package com.niles.tangram;
 
-import com.niles.tangram.common.CellModel;
 import com.niles.tangram.cell.CreateCells;
+import com.niles.tangram.common.CellInfo;
 import com.niles.tangram.common.LoadImageListener;
 
 import java.util.ArrayList;
@@ -15,27 +15,23 @@ import java.util.List;
 public class Config {
 
     private final LoadImageListener mLoadImageListener;
-    private final List<CellModel> mCellModelList;
+    private final List<CellInfo> mCellInfoList;
     private final boolean mPrintLog;
 
-    Config(LoadImageListener loadImageListener,
-           List<CellModel> cellModelList,
-           boolean printLog) {
+    private Config(LoadImageListener loadImageListener,
+                   List<CellInfo> cellInfoList,
+                   boolean printLog) {
         mLoadImageListener = loadImageListener;
-        mCellModelList = cellModelList;
+        mCellInfoList = cellInfoList;
         mPrintLog = printLog;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 
     public LoadImageListener getLoadImageListener() {
         return mLoadImageListener;
     }
 
-    public List<CellModel> getCellModelList() {
-        return mCellModelList;
+    public List<CellInfo> getCellInfoList() {
+        return mCellInfoList;
     }
 
     public boolean isPrintLog() {
@@ -44,11 +40,11 @@ public class Config {
 
     public static final class Builder {
         private LoadImageListener mLoadImageListener;
-        private List<CellModel> mCellModelList = new ArrayList<>();
+        private List<CellInfo> mCellInfoList = new ArrayList<>();
         private boolean mPrintLog;
 
-        Builder() {
-            mCellModelList.addAll(CreateCells.create());
+        public Builder() {
+            mCellInfoList.addAll(CreateCells.create());
         }
 
         public LoadImageListener getLoadImageListener() {
@@ -65,15 +61,15 @@ public class Config {
             return this;
         }
 
-        public Builder addCellModel(CellModel cellModel) {
-            mCellModelList.add(cellModel);
+        public Builder addCellModel(CellInfo cellInfo) {
+            mCellInfoList.add(cellInfo);
             return this;
         }
 
         public Config build() {
             check();
             return new Config(mLoadImageListener,
-                    mCellModelList,
+                    mCellInfoList,
                     mPrintLog);
         }
 

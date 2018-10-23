@@ -19,8 +19,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        TangramManager.init(this, Config
-                .newBuilder()
+        TangramManager.init(this, new Config.Builder()
                 .setLoadImageListener(new LoadImageListener() {
                     @Override
                     public void loadImage(ImageView imageView, String url) {

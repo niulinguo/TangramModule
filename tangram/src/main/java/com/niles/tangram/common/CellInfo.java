@@ -12,7 +12,7 @@ import com.tmall.wireless.tangram.structure.viewcreator.ViewHolderCreator;
  * Date 2018/9/24 08:42
  * Email niulinguo@163.com
  */
-public class CellModel {
+public class CellInfo {
 
     private final String mType;
     private final Class<? extends View> mViewClass;
@@ -20,16 +20,12 @@ public class CellModel {
     private final Class<? extends ViewHolderCreator.ViewHolder> mHolderClass;
     private final int mLayoutResId;
 
-    CellModel(String type, Class<? extends View> viewClass, Class<? extends BaseCell> cellClass, Class<? extends ViewHolderCreator.ViewHolder> holderClass, int layoutResId) {
+    private CellInfo(String type, Class<? extends View> viewClass, Class<? extends BaseCell> cellClass, Class<? extends ViewHolderCreator.ViewHolder> holderClass, int layoutResId) {
         mType = type;
         mViewClass = viewClass;
         mCellClass = cellClass;
         mHolderClass = holderClass;
         mLayoutResId = layoutResId;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
     }
 
     public String getType() {
@@ -84,9 +80,9 @@ public class CellModel {
             return this;
         }
 
-        public CellModel build() {
+        public CellInfo build() {
             check();
-            return new CellModel(mType,
+            return new CellInfo(mType,
                     mViewClass,
                     mCellClass,
                     mHolderClass,
