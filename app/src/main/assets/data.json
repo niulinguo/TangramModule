@@ -2,14 +2,16 @@
   {
     "type": "container-banner",
     "style": {
-      "indicatorImg1": "https://gw.alicdn.com/tps/TB16RaxLpXXXXbIXFXXXXXXXXXX-14-14.png",
-      "indicatorImg2": "https://gw.alicdn.com/tps/TB1m79uLpXXXXXUXVXXXXXXXXXX-18-16.png",
+      "indicatorImg1": "https://img.alicdn.com/tps/TB16i4qNXXXXXbBXFXXXXXXXXXX-32-4.png",
+      "indicatorImg2": "https://img.alicdn.com/tps/TB1XRNFNXXXXXXKXXXXXXXXXXXX-32-4.png",
       "indicatorGravity": "center",
       "indicatorPosition": "inside",
-      "indicatorGap": 2,
-      "hGap": 12,
+      "indicatorGap": 4,
+      "hGap": 0,
       "pageRatio": 1,
-      "aspectRatio": 3.223
+      "itemRatio": 1.8,
+      "infinite": true,
+      "autoScroll": 4000
     },
     "items": [
       {
@@ -23,6 +25,31 @@
       {
         "type": "simple_img",
         "url": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537775669943&di=6c9df07b77a6b82c7c7c79791ca29073&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D3359905508%2C327083786%26fm%3D214%26gp%3D0.jpg"
+      }
+    ]
+  },
+  {
+    "type": "container-fix",
+    "style": {
+      "align": "top_left",
+      "showType": "always",
+      "bgColor": "#FFFFFF"
+    },
+    "items": [
+      {
+        "type": "main.filter"
+      }
+    ]
+  },
+  {
+    "type": "container-sticky",
+    "style": {
+      "offset": "0",
+      "sticky": "start"
+    },
+    "items": [
+      {
+        "type": "main.filter"
       }
     ]
   },

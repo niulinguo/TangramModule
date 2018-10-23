@@ -5,7 +5,9 @@ import android.widget.ImageView;
 
 import com.niles.tangram.Config;
 import com.niles.tangram.TangramManager;
+import com.niles.tangram.common.CellInfo;
 import com.niles.tangram.common.LoadImageListener;
+import com.niles.tangrammodule.main.MainFilterLayout;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -30,6 +32,10 @@ public class MyApp extends Application {
                     }
                 })
                 .setPrintLog(true)
+                .addCellModel(new CellInfo.Builder()
+                        .setType("main.filter")
+                        .setViewClass(MainFilterLayout.class)
+                        .build())
                 .build());
     }
 }
